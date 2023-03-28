@@ -1,0 +1,16 @@
+{
+    "name": "phpframework/phpframework",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Antonela Antic"
+        }
+    ],
+    "require": {},
+
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
