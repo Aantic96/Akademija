@@ -2,7 +2,12 @@
 
 namespace App;
 
-class Request
-{
+use App\Interfaces\RequestInterface;
 
+class Request implements RequestInterface
+{
+    public function checkMethod(string $superGlobalMethodType)
+    {
+        // TODO: Implement checkMethod() method.
+    }
 }
