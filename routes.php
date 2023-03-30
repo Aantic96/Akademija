@@ -4,7 +4,7 @@
 $router = new \App\Router();
 
 //Uses method get (defined in Router)
-$router->get("/", function() {
+$router->get("/", function () {
     echo "Hi\n";
 });
 
