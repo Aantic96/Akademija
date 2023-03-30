@@ -26,17 +26,21 @@ class Router
     }
 
     //Resolves route with the matching uri
-    //TODO: Add matching by method
-    public function resolve(string $uri)
+
+    public function resolve(string $uri, Request $request): string
     {
         foreach($this->routes as $route)
         {
-            if($uri === $route["uri"]) {
-                $function = $route['function'];
-                $function();
+            if($uri === $route["uri"])
+            {
+                $method = $request->getMethod();
+                if($method === $route['method'])
+                {
+                    $function = $route['function'];
+                    return call_user_func($function);
+                }
             }
         }
-
-        //IF not abort
+        echo "Page not found";
     }
 }

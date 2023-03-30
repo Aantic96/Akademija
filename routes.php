@@ -9,6 +9,6 @@ $router->get("/", function() {
 });
 
 //Uses method post (defined in Router)
-$router->post("/test", function () {
+$router->get("/test", function () {
     echo "Bye\n";
 });

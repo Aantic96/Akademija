@@ -6,8 +6,18 @@ use App\Interfaces\RequestInterface;
 
 class Request implements RequestInterface
 {
-    public function checkMethod(string $superGlobalMethodType)
+    protected array $params;
+    protected string $method;
+
+    public function __construct(array $params)
     {
-        // TODO: Implement checkMethod() method.
+        $this->params = $params;
+        $this->method = $_SERVER['REQUEST_METHOD'];
     }
+
+    public function getMethod(): string {
+        return $this->method;
+    }
+
+
 }
