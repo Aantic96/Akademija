@@ -13,5 +13,5 @@ $router->get("/", function (RequestInterface $request) {
 
 //Uses method post (defined in Router)
 $router->post("/test", function (RequestInterface $request) {
-    return new Response(implode(", ", $request->getParams()));
+    return new Response(implode(", ", $request->getBody()));
 });

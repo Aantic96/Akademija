@@ -7,6 +7,7 @@ use App\Interfaces\RequestInterface;
 class Request implements RequestInterface
 {
     protected array $params;
+    protected array $body;
     protected string $method;
     protected string $uri;
 
@@ -15,17 +16,17 @@ class Request implements RequestInterface
         $this->uri = parse_url($_SERVER['REQUEST_URI'])['path'];
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->setParams();
+        $this->setBody();
     }
 
     protected function setParams(): void
     {
-        if ($this->method == "GET") {
-            $this->params = $_GET;
-        } else if ($this->method == "POST") {
-            $this->params = $_POST;
-        } else {
-            throw new \Exception("Method $this->method not supported");
-        }
+        $this->params = $_GET;
+    }
+
+    private function setBody()
+    {
+        $this->body = $_POST;
     }
 
     public function getMethod(): string
@@ -36,6 +37,11 @@ class Request implements RequestInterface
     public function getParams(): array
     {
         return $this->params;
+    }
+
+    public function getBody(): array
+    {
+        return $this->body;
     }
 
     public function getUri(): string
