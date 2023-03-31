@@ -20,9 +20,9 @@ class Request implements RequestInterface
     protected function setParams(): void
     {
         if ($this->method == "GET") {
-            $this->params[] = $_GET;
+            $this->params = $_GET;
         } else if ($this->method == "POST") {
-            $this->params[] = $_POST;
+            $this->params = $_POST;
         } else {
             throw new \Exception("Method $this->method not supported");
         }

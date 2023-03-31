@@ -4,5 +4,5 @@ namespace App\Interfaces;
 
 interface ResponseInterface
 {
-    public function send(string $content): string;
+    public function send(): string;
 }

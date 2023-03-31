@@ -8,5 +8,7 @@ require_once "routes.php";
 
 $request = new Request();
 
-$router->resolve($request);
+$response = $router->resolve($request);
+
+echo $response->send();
 

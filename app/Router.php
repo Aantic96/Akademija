@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Interfaces\RequestInterface;
+use App\Interfaces\ResponseInterface;
 
 class Router
 {
@@ -29,14 +30,15 @@ class Router
 
     //Resolves route with the matching uri
 
-    public function resolve(RequestInterface $request)
+    public function resolve(RequestInterface $request): ?ResponseInterface
     {
         foreach ($this->routes as $route) {
             if ($request->getUri() === $route["uri"] && $request->getMethod() === $route['method']) {
                 $function = $route['function'];
-                return call_user_func($function);
+                return call_user_func($function, $request);
             }
         }
         echo "Page not found";
+        return null;
     }
 }

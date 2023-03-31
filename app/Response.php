@@ -6,8 +6,15 @@ use App\Interfaces\ResponseInterface;
 
 class Response implements ResponseInterface
 {
-    public function send(string $content): string
+    protected string $content;
+
+    public function __construct(string $content)
     {
-        return $content;
+        $this->content = $content;
+    }
+
+    public function send(): string
+    {
+        return $this->content;
     }
 }
