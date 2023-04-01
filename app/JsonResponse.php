@@ -20,7 +20,8 @@ class JsonResponse implements ResponseInterface
     }
 
     //For browser to know that JSON is returned
-    protected function setJsonContentType(): void {
+    protected function setJsonContentType(): void
+    {
         header("Content-Type: application/json");
     }
 }

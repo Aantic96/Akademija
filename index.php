@@ -11,4 +11,3 @@ $request = new Request();
 $response = $router->resolve($request);
 
 echo $response->send();
-

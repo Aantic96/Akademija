@@ -10,32 +10,36 @@ class Router
     //Stores all routes
     protected array $routes = [];
 
-    public function get(string $uri, callable $callback): void
+    public function get(string $uri, array|callable $action): void
     {
         $this->routes[] = [
             'uri' => $uri,
-            'function' => $callback,
+            'action' => $action,
             'method' => "GET"
         ];
     }
 
-    public function post(string $uri, callable $callback): void
+    public function post(string $uri, array|callable $action): void
     {
         $this->routes[] = [
             'uri' => $uri,
-            'function' => $callback,
+            'action' => $action,
             'method' => "POST"
         ];
     }
 
     //Resolves route with the matching uri
-
     public function resolve(RequestInterface $request): ?ResponseInterface
     {
         foreach ($this->routes as $route) {
+            //Matching request uri to routes
             if ($request->getUri() === $route["uri"] && $request->getMethod() === $route['method']) {
-                $function = $route['function'];
-                return call_user_func($function, $request);
+                $action = $route['action'];
+                if (is_callable($action)) {
+                    return call_user_func($action, $request);
+                }
+                $controller = new $action[0]($request);
+                return $controller->{$action[1]}();
             }
         }
         echo "Page not found";

@@ -1,7 +1,7 @@
 <?php
 
+use App\Controllers\IndexController;
 use App\Interfaces\RequestInterface;
-use App\JsonResponse;
 use App\Response;
 
 //Instantiate class Router
@@ -12,11 +12,11 @@ $router->get("/", function (RequestInterface $request) {
     return new Response(implode(", ", $request->getParams()));
 });
 
-$router->get("/jason", function (RequestInterface $request) {
-    return new JsonResponse($request->getParams());
-});
-
 //Uses method post (defined in Router)
-$router->post("/test", function (RequestInterface $request) {
+$router->post("/post", function (RequestInterface $request) {
     return new Response(implode(", ", $request->getBody()));
 });
+
+$router->get("/index", [IndexController::class, "indexAction"]);
+
+$router->get("/index-json", [IndexController::class, "indexJsonAction"]);
