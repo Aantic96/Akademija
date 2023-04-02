@@ -48,4 +48,9 @@ class Request implements RequestInterface
     {
         return $this->uri;
     }
+
+    public function addParams(array $params): void
+    {
+        $this->params = array_merge($this->params, $params);
+    }
 }
