@@ -23,5 +23,7 @@ $router->get("/index-json", [IndexController::class, "indexJsonAction"]);
 
 //Case for placeholder param
 $router->get('/test/{test_id}', function (RequestInterface $request) {
-    return new Response(implode(", ", $request->getParams()));
+    return new Response(implode(", ", $request->getAttributes()));
 });
+
+$router->get('/test/{bla}', [IndexController::class, "indexJsonAction"]);

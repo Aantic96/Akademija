@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Interfaces\RequestInterface;
 
-class BaseController
+abstract class BaseController
 {
     protected RequestInterface $request;
 

@@ -8,6 +8,7 @@ class Request implements RequestInterface
 {
     protected array $params;
     protected array $body;
+    protected array $attributes;
     protected string $method;
     protected string $uri;
 
@@ -17,6 +18,7 @@ class Request implements RequestInterface
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->setParams();
         $this->setBody();
+        $this->attributes = [];
     }
 
     protected function setParams(): void
@@ -24,9 +26,14 @@ class Request implements RequestInterface
         $this->params = $_GET;
     }
 
-    private function setBody()
+    private function setBody(): void
     {
         $this->body = $_POST;
+    }
+
+    public function setAttributes(array $placeholderParams): void
+    {
+        $this->attributes = $placeholderParams;
     }
 
     public function getMethod(): string
@@ -49,8 +56,8 @@ class Request implements RequestInterface
         return $this->uri;
     }
 
-    public function addParams(array $params): void
+    public function getAttributes(): array
     {
-        $this->params = array_merge($this->params, $params);
+        return $this->attributes;
     }
 }

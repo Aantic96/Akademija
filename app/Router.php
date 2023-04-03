@@ -9,13 +9,15 @@ class Router
 {
     //Stores all routes
     protected array $routes = [];
+    public const METHOD_GET = 'GET';
+    public const METHOD_POST = 'POST';
 
     public function get(string $uri, array|callable $action): void
     {
         $this->routes[] = [
             'uri' => $uri,
             'action' => $action,
-            'method' => "GET"
+            'method' => self::METHOD_GET
         ];
     }
 
@@ -24,7 +26,7 @@ class Router
         $this->routes[] = [
             'uri' => $uri,
             'action' => $action,
-            'method' => "POST"
+            'method' => self::METHOD_POST
         ];
     }
 
@@ -36,7 +38,7 @@ class Router
             //Matching request uri to routes
             if ($request->getMethod() === $route['method'] &&
                 $this->matchRoute($route['uri'], $request->getUri(), $placeholderParams)) {
-                $request->addParams($placeholderParams);
+                $request->setAttributes($placeholderParams);
 
                 $action = $route['action'];
                 if (is_callable($action)) {
