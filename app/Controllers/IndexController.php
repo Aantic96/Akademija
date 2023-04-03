@@ -7,12 +7,12 @@ use App\Response;
 
 class IndexController extends BaseController
 {
-    public function indexAction()
+    public function indexAction(): Response
     {
         return new Response(implode(", ", $this->request->getParams()));
     }
 
-    public function indexJsonAction()
+    public function indexJsonAction(): JsonResponse
     {
         return new JsonResponse($this->request->getParams());
     }
