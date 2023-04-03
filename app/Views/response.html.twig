@@ -7,8 +7,8 @@
 
 <h2>My params:</h2>
 <ul id="navigation">
-    {% for item in request %}
-    {{ item }}
+    {% for key,value in request %}
+    <li>{{ key }} : {{ value }}</li>
     {% endfor %}
 </ul>
 
