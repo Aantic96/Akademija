@@ -19,6 +19,8 @@ $router->post("/post", function (RequestInterface $request) {
 
 $router->get("/index", [IndexController::class, "indexAction"]);
 
+$router->get("/index-twig", [IndexController::class, "twigAction"]);
+
 $router->get("/index-json", [IndexController::class, "indexJsonAction"]);
 
 //Case for placeholder param
