@@ -32,12 +32,7 @@ class IndexController extends BaseController
 
     public function getUsers(): JsonResponse
     {
-        if(array_key_exists('limit', $this->request->getParams()['limit']))
-            $limit = $this->request->getParams()['limit'];
-        else
-        {
-            $limit = null;
-        }
+        $limit = array_key_exists('limit', $this->request->getParams()) ? $this->request->getParams()['limit'] : null;
         return new JsonResponse(Connection::getInstance()
             ->fetchAssocAll('SELECT * FROM users', [], $limit));
     }

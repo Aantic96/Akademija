@@ -26,7 +26,7 @@ class Request implements RequestInterface
         $this->params = $_GET;
     }
 
-    private function setBody(): void
+    protected function setBody(): void
     {
         $this->body = $_POST;
     }
@@ -41,7 +41,7 @@ class Request implements RequestInterface
         return $this->method;
     }
 
-    public function getParams(): string
+    public function getParams(): array
     {
         return $this->params;
     }

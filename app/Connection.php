@@ -52,21 +52,16 @@ class Connection
         $statement = $this->connection->prepare($query);
         $statement->execute($values);
 
-        return $statement->fetchAll(PDO::FETCH_ASSOC)
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function insert(string $tableName, array $addValues)
     {
-        //kreiranje unosa
-        //prima ime tablice, asoc array ('polje' => 'vrijednost')
-        //bonus zadatak: napraviti da drugi
-        // parametar može biti array od assoc arrayava te se onda radi grupni insert
-
+        //
     }
 
     public function update(string $tableName, array $updateValues, array $condition)
     {
-        //update na tablici
-        //prima ime tablice, asoc array(vrijednosti za stupce koji se azuriraju) i asoc array koji je za condition
+        //
     }
 }
