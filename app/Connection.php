@@ -76,8 +76,20 @@ class Connection
         $statement->execute();
     }
 
-    public function update(string $tableName, array $updateValues, array $condition)
+    public function update(string $tableName, array $values, array $conditions)
     {
-        //
+        $data = [];
+        foreach ($values as $column => $value) {
+            $data[] = "$column = '$value'";
+        }
+        //TODO: Add other conditions (?)
+        $where = "";
+        foreach ($conditions as $key => $value) {
+            $where = " WHERE $key = '$value'";
+        }
+
+        $query = "UPDATE $tableName SET " . implode(", ", $data) . $where;
+        $statement = $this->connection->prepare($query);
+        $statement->execute();
     }
 }
