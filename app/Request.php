@@ -41,7 +41,7 @@ class Request implements RequestInterface
         return $this->method;
     }
 
-    public function getParams(): array
+    public function getParams(): string
     {
         return $this->params;
     }

@@ -6,7 +6,7 @@ interface RequestInterface
 {
     public function getMethod(): string;
 
-    public function getParams(): array;
+    public function getParams(): string;
 
     public function getUri(): string;
 }

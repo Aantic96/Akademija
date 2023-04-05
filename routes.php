@@ -26,4 +26,4 @@ Router::get('/test/{test_id}', function (RequestInterface $request) {
     return new Response(implode(", ", $request->getAttributes()));
 });
 
-Router::get('/test/{bla}', [IndexController::class, "indexJsonAction"]);
+Router::get('/users', [IndexController::class, "getUsers"]);
