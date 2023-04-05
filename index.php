@@ -1,7 +1,14 @@
 <?php
 
-require "vendor/autoload.php";
+use App\Request;
+use App\Router;
 
-echo "Hello world!\n";
+require_once "vendor/autoload.php";
 
+require_once "routes.php";
 
+$request = new Request();
+
+$response = Router::resolve($request);
+
+echo $response->send();

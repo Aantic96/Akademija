@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Webpage</title>
+</head>
+<body>
+
+<h2>My params:</h2>
+<ul id="navigation">
+    {% for key,value in request %}
+    <li>{{ key }} : {{ value }}</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
