@@ -21,7 +21,7 @@ class IndexController extends BaseController
 
     public function twigAction(): HtmlResponse
     {
-        return new HtmlResponse('response.html.twig',['request' => $this->request->getParams()]);
+        return new HtmlResponse('response.html.twig', ['request' => $this->request->getParams()]);
     }
 
     public function getUser(): JsonResponse

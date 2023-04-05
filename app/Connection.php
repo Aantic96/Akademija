@@ -57,55 +57,23 @@ class Connection
 
     public function insert(string $tableName, array $values): void
     {
-        $columns = [];
         $data = [];
-        foreach ($values as $key => $value) {
-            $columns[] = $key;
-            $data[] = $value;
-        }
-
-        $query = "INSERT INTO $tableName(" . implode(', ', $columns) .
-            ") VALUES(" . implode(', ', $data) . ")";
-
-        $statement = $this->connection->prepare($query);
-        $statement->execute();
-    }
-
-    public function groupInsert(string $tableName, array $values): void
-    {
-        if (!$this->isAssoc($values)) {
-            echo "Wrong method";
-            exit;
-        }
-        
-        $columns = [];
-        $data = [];
-        foreach ($values as $value){
-            $data[] = '(';
-            foreach ($value as $k => $v){
-                if(!in_array($columns))
-                {
-                    $columns[] = $k;
-                }
-                $data[] = $v;
+        if (!empty($values) && is_array($values[0])) {
+            $columns = array_keys($values[0]);
+            foreach ($values as $entry) {
+                var_dump($entry);
+                $data[] = "('" . implode("', '", $entry) . "')";
             }
-            $data[] = ')';
+        } else {
+            $columns = array_keys($values);
+            $data[] = "('" . implode("', '", $values) . "')";
         }
 
         $query = "INSERT INTO $tableName(" . implode(', ', $columns) .
-            ") VALUES(" . implode(', ', $data) . ")";
+            ") VALUES" . implode(', ', $data);
 
         $statement = $this->connection->prepare($query);
         $statement->execute();
-    }
-
-    public function isAssoc(array $array): bool
-    {
-        if (empty($array)) {
-            return false;
-        }
-        $keys = array_keys($array);
-        return array_keys($keys) !== $keys;
     }
 
     public function update(string $tableName, array $updateValues, array $condition)
