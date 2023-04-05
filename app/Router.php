@@ -8,22 +8,22 @@ use App\Interfaces\ResponseInterface;
 class Router
 {
     //Stores all routes
-    protected array $routes = [];
+    private static array $routes = [];
     public const METHOD_GET = 'GET';
     public const METHOD_POST = 'POST';
 
-    public function get(string $uri, array|callable $action): void
+    public static function get(string $uri, array|callable $action): void
     {
-        $this->routes[] = [
+        self::$routes[]  = [
             'uri' => $uri,
             'action' => $action,
             'method' => self::METHOD_GET
         ];
     }
 
-    public function post(string $uri, array|callable $action): void
+    public static function post(string $uri, array|callable $action): void
     {
-        $this->routes[] = [
+        self::$routes[]  = [
             'uri' => $uri,
             'action' => $action,
             'method' => self::METHOD_POST
@@ -31,13 +31,13 @@ class Router
     }
 
     //Resolves route with the matching uri
-    public function resolve(RequestInterface $request): ?ResponseInterface
+    public static function resolve(RequestInterface $request): ?ResponseInterface
     {
-        foreach ($this->routes as $route) {
-            $placeholderParams = $this->resolvePlaceholders($request, $route);
+        foreach (self::$routes as $route) {
+            $placeholderParams = self::resolvePlaceholders($request, $route);
             //Matching request uri to routes
             if ($request->getMethod() === $route['method'] &&
-                $this->matchRoute($route['uri'], $request->getUri(), $placeholderParams)) {
+                self::matchRoute($route['uri'], $request->getUri(), $placeholderParams)) {
                 $request->setAttributes($placeholderParams);
 
                 $action = $route['action'];
@@ -46,14 +46,14 @@ class Router
                 }
 
                 $controller = new $action[0]($request);
-                return $controller->{$action[1]}();
+                return call_user_func([$controller, $action[1]]);
             }
         }
         echo "Page not found";
         return null;
     }
 
-    protected function resolvePlaceholders($request, $route): array
+    protected static function resolvePlaceholders($request, $route): array
     {
         $requestParts = explode("/", $request->getUri());
         $routeParts = explode("/", $route['uri']);
@@ -72,7 +72,7 @@ class Router
         return $placeholderParams;
     }
 
-    protected function matchRoute(string $route, string $uri, array $placeholderParams): bool
+    protected static function matchRoute(string $route, string $uri, array $placeholderParams): bool
     {
         foreach ($placeholderParams as $placeholder => $value) {
             $route = str_replace('{' . $placeholder . '}', $value, $route);
