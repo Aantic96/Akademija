@@ -3,19 +3,22 @@
 namespace App;
 
 use PDO;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable("/var/www/html/phpframework");
+$dotenv->load();
 
 class Connection
 {
-    private static $instance = null;
-    private $connection;
+    private static ?Connection $instance = null;
+    private PDO $connection;
 
     private function __construct()
     {
-        //TODO: Make dynamic
-        $db = "phpframework";
-        $host = "localhost";
-        $pw = "12345";
-        $user = "nela";
+        $db = $_ENV['DB_NAME'];
+        $host = $_ENV['DB_HOST'];
+        $pw = $_ENV['DB_PASSWORD'];
+        $user = $_ENV['DB_USER'];
 
         $this->connection = new PDO("mysql:host=$host;dbname=$db", $user, $pw);
     }
@@ -38,9 +41,11 @@ class Connection
     {
         $statement = $this->connection->prepare($query);
 
+        var_dump($statement);
         $statement->execute($values);
 
-        return $statement->fetch(PDO::FETCH_ASSOC);
+
+        $statement->fetch(PDO::FETCH_ASSOC);
     }
 
     public function fetchAssocAll(string $query, array $values, ?int $limit)
@@ -50,6 +55,7 @@ class Connection
         }
 
         $statement = $this->connection->prepare($query);
+
         $statement->execute($values);
 
         return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -76,13 +82,13 @@ class Connection
         $statement->execute();
     }
 
-    public function update(string $tableName, array $values, array $conditions)
+    public function update(string $tableName, array $values, array $conditions):void
     {
         $data = [];
         foreach ($values as $column => $value) {
             $data[] = "$column = '$value'";
-        }
-        //TODO: Add other conditions (?)
+        }   
+
         $where = "";
         foreach ($conditions as $key => $value) {
             $where = " WHERE $key = '$value'";
