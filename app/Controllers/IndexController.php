@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\HtmlResponse;
 use App\JsonResponse;
+use App\Models\User;
 use App\Response;
 use App\Connection;
 
@@ -26,8 +27,7 @@ class IndexController extends BaseController
 
     public function getUser(): JsonResponse
     {
-        return new JsonResponse(Connection::getInstance()
-            ->fetchAssoc('SELECT * FROM users WHERE id=:user_id', $this->request->getAttributes()));
+        return new JsonResponse(User::find($this->request->getAttributes()['user_id']));
     }
 
     public function getUsers(): JsonResponse

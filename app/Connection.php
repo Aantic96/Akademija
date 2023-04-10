@@ -41,11 +41,9 @@ class Connection
     {
         $statement = $this->connection->prepare($query);
 
-        var_dump($statement);
         $statement->execute($values);
 
-
-        $statement->fetch(PDO::FETCH_ASSOC);
+        return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
     public function fetchAssocAll(string $query, array $values, ?int $limit)
@@ -87,7 +85,7 @@ class Connection
         $data = [];
         foreach ($values as $column => $value) {
             $data[] = "$column = '$value'";
-        }   
+        }
 
         $where = "";
         foreach ($conditions as $key => $value) {

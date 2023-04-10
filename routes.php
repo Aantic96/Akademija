@@ -27,3 +27,5 @@ Router::get('/test/{test_id}', function (RequestInterface $request) {
 });
 
 Router::get('/users', [IndexController::class, "getUsers"]);
+
+Router::get('/users/{user_id}', [IndexController::class, "getUser"]);
