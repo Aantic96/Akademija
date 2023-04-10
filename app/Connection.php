@@ -87,12 +87,14 @@ class Connection
             $data[] = "$column = '$value'";
         }
 
-        $where = "";
-        foreach ($conditions as $key => $value) {
-            $where = " WHERE $key = '$value'";
+        $where = [];
+        foreach ($conditions as $condition) {
+            $boolOperator = empty($where) ? "WHERE " : $condition['bool_operator'] . " ";
+            $where[] = $boolOperator . $condition['column'] . $condition['operator'] . "'" .
+                $condition['value'] . "'";
         }
 
-        $query = "UPDATE $tableName SET " . implode(", ", $data) . $where;
+        $query = "UPDATE $tableName SET " . implode(", ", $data) . implode(' ', $where);
         $statement = $this->connection->prepare($query);
         $statement->execute();
     }
