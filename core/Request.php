@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace Core;
 
-use App\Interfaces\RequestInterface;
+use Core\Interfaces\RequestInterface;
 
 class Request implements RequestInterface
 {

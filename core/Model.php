@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Models;
+namespace Core;
 
-use App\Connection;
 use Doctrine\Inflector\InflectorFactory;
 
 abstract class Model

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace Core;
 
-use App\Interfaces\RequestInterface;
+use Core\Interfaces\RequestInterface;
 
 abstract class BaseController
 {

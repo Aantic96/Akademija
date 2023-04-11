@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace Core\Responses;
 
-use App\Interfaces\ResponseInterface;
+use Core\Interfaces\ResponseInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -19,7 +19,7 @@ class HtmlResponse implements ResponseInterface
 
     public function send(): string
     {
-        $loader = new FilesystemLoader('app/Views');
+        $loader = new FilesystemLoader('../app/Views');
         $twig = new Environment($loader, []);
         $template = $twig->load($this->view);
         return $template->render($this->content);

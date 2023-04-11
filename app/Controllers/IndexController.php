@@ -2,11 +2,12 @@
 
 namespace App\Controllers;
 
-use App\HtmlResponse;
-use App\JsonResponse;
 use App\Models\User;
-use App\Response;
-use App\Connection;
+use Core\BaseController;
+use Core\Connection;
+use Core\Responses\HtmlResponse;
+use Core\Responses\JsonResponse;
+use Core\Responses\Response;
 
 class IndexController extends BaseController
 {

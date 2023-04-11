@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace Core;
 
-use PDO;
 use Dotenv\Dotenv;
+use PDO;
 
 $dotenv = Dotenv::createImmutable("/var/www/html/phpframework");
 $dotenv->load();

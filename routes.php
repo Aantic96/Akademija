@@ -1,9 +1,9 @@
 <?php
 
 use App\Controllers\IndexController;
-use App\Interfaces\RequestInterface;
-use App\Response;
-use App\Router;
+use Core\Interfaces\RequestInterface;
+use Core\Responses\Response;
+use Core\Router;
 
 //Uses method get (defined in Router)
 Router::get("/", function (RequestInterface $request) {
