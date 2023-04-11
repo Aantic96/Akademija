@@ -47,7 +47,7 @@ abstract class Model
         return static::$primaryKeyColumn;
     }
 
-    public static function find($primaryKey)
+    public static function find($primaryKey): object
     {
         $primaryKeyColumn = self::getPrimaryKeyColumn();
         $tableName = self::getTableName();
@@ -61,13 +61,20 @@ abstract class Model
         return $instance;
     }
 
-    protected function save()
+    public function save()
     {
-
+        //TODO: assign PK to model
+        Connection::getInstance()->insert(self::getTableName(), $this->attributes);
     }
 
-    protected function update()
+    public function update()
     {
+        $primaryKeyName = self::getPrimaryKeyColumn();
+        Connection::getInstance()->update(self::getTableName(), $this->attributes, [[
+            'value' => $this->attributes[$primaryKeyName],
+            'column' => $primaryKeyName,
+            'operator' => '='
+        ]]);
 
     }
 

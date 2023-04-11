@@ -65,7 +65,6 @@ class Connection
         if (!empty($values) && is_array($values[0])) {
             $columns = array_keys($values[0]);
             foreach ($values as $entry) {
-                var_dump($entry);
                 $data[] = "('" . implode("', '", $entry) . "')";
             }
         } else {
