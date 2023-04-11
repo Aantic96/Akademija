@@ -31,6 +31,44 @@ abstract class Model
         return static::class;
     }
 
+    public static function find($primaryKey): object
+    {
+        $tableName = self::getTableName();
+
+        $instance = new static();
+        $instance->attributes = Connection::getInstance()
+            ->fetchAssoc("SELECT * FROM " . $tableName . " WHERE " .
+                self::$primaryKeyColumn . '=:primary_key',
+                ['primary_key' => $primaryKey]);
+
+        return $instance;
+    }
+
+    public function save(): object
+    {
+        Connection::getInstance()->insert(self::getTableName(), $this->attributes);
+        $this->{self::$primaryKeyColumn} =
+            Connection::getInstance()->getConnection()->lastInsertId(self::$primaryKeyColumn);
+
+        return $this;
+    }
+
+    public function update(): object
+    {
+        Connection::getInstance()->update(self::getTableName(), $this->attributes, [[
+            'value' => $this->attributes[self::$primaryKeyColumn],
+            'column' => self::$primaryKeyColumn,
+            'operator' => '='
+        ]]);
+
+        return $this;
+    }
+
+    public function toArray(): array
+    {
+        return $this->attributes;
+    }
+
     private static function getTableName(): string
     {
         if (isset(static::$tableName)) {
@@ -45,42 +83,6 @@ abstract class Model
     private static function getPrimaryKeyColumn(): string
     {
         return static::$primaryKeyColumn;
-    }
-
-    public static function find($primaryKey): object
-    {
-        $primaryKeyColumn = self::getPrimaryKeyColumn();
-        $tableName = self::getTableName();
-
-        $instance = new static();
-        $instance->attributes = Connection::getInstance()
-            ->fetchAssoc("SELECT * FROM " . $tableName . " WHERE " .
-                $primaryKeyColumn . '=:primary_key',
-                ['primary_key' => $primaryKey]);
-
-        return $instance;
-    }
-
-    public function save()
-    {
-        //TODO: assign PK to model
-        Connection::getInstance()->insert(self::getTableName(), $this->attributes);
-    }
-
-    public function update()
-    {
-        $primaryKeyName = self::getPrimaryKeyColumn();
-        Connection::getInstance()->update(self::getTableName(), $this->attributes, [[
-            'value' => $this->attributes[$primaryKeyName],
-            'column' => $primaryKeyName,
-            'operator' => '='
-        ]]);
-
-    }
-
-    public function toArray(): array
-    {
-        return $this->attributes;
     }
 
 }

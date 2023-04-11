@@ -62,7 +62,7 @@ class Connection
     public function insert(string $tableName, array $values): void
     {
         $data = [];
-        if (!empty($values) && is_array($values[0])) {
+        if (!empty($values) && array_key_exists(0, $values) && is_array($values[0])) {
             $columns = array_keys($values[0]);
             foreach ($values as $entry) {
                 $data[] = "('" . implode("', '", $entry) . "')";
