@@ -9,6 +9,17 @@ abstract class Model
 {
     protected static string $primaryKeyColumn = 'id';
     protected static string $tableName;
+    protected array $attributes = [];
+
+    public function __set($key, $value)
+    {
+        $this->attributes[$key] = $value;
+    }
+
+    public function __get(string $key)
+    {
+        return $this->attributes[$key];
+    }
 
     public static function getNameOfClass(): string
     {
@@ -41,10 +52,13 @@ abstract class Model
         $primaryKeyColumn = self::getPrimaryKeyColumn();
         $tableName = self::getTableName();
 
-        return Connection::getInstance()
+        $instance = new static();
+        $instance->attributes = Connection::getInstance()
             ->fetchAssoc("SELECT * FROM " . $tableName . " WHERE " .
                 $primaryKeyColumn . '=:primary_key',
                 ['primary_key' => $primaryKey]);
+
+        return $instance;
     }
 
     protected function save()
@@ -57,9 +71,9 @@ abstract class Model
 
     }
 
-    protected function toArray()
+    public function toArray(): array
     {
-
+        return $this->attributes;
     }
 
 }

@@ -27,7 +27,7 @@ class IndexController extends BaseController
 
     public function getUser(): JsonResponse
     {
-        return new JsonResponse(User::find($this->request->getAttributes()['user_id']));
+        return new JsonResponse(User::find($this->request->getAttributes()['user_id'])->toArray());
     }
 
     public function getUsers(): JsonResponse
