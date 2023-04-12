@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace Core;
 
-use App\Interfaces\RequestInterface;
-use App\Interfaces\ResponseInterface;
+use Core\Interfaces\RequestInterface;
+use Core\Interfaces\ResponseInterface;
 
 class Router
 {

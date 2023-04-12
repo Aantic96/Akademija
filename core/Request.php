@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace Core;
 
-use App\Interfaces\RequestInterface;
+use Core\Interfaces\RequestInterface;
 
 class Request implements RequestInterface
 {
@@ -26,7 +26,7 @@ class Request implements RequestInterface
         $this->params = $_GET;
     }
 
-    private function setBody(): void
+    protected function setBody(): void
     {
         $this->body = $_POST;
     }

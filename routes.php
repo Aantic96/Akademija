@@ -1,9 +1,9 @@
 <?php
 
 use App\Controllers\IndexController;
-use App\Interfaces\RequestInterface;
-use App\Response;
-use App\Router;
+use Core\Interfaces\RequestInterface;
+use Core\Responses\Response;
+use Core\Router;
 
 //Uses method get (defined in Router)
 Router::get("/", function (RequestInterface $request) {
@@ -26,4 +26,6 @@ Router::get('/test/{test_id}', function (RequestInterface $request) {
     return new Response(implode(", ", $request->getAttributes()));
 });
 
-Router::get('/test/{bla}', [IndexController::class, "indexJsonAction"]);
+Router::get('/users', [IndexController::class, "getUsers"]);
+
+Router::get('/users/{user_id}', [IndexController::class, "getUser"]);

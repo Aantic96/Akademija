@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace Core\Responses;
 
-use App\Interfaces\ResponseInterface;
+use Core\Interfaces\ResponseInterface;
 
 class JsonResponse implements ResponseInterface
 {
