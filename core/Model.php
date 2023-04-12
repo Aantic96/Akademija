@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use Core\Traits\HasTimestamps;
+use Core\Traits\SoftDelete;
 use Doctrine\Inflector\InflectorFactory;
 
 abstract class Model
@@ -45,6 +47,10 @@ abstract class Model
 
     public function save(): object
     {
+        if (in_array(HasTimestamps::class, class_uses($this))) {
+            $this->setCreatedTimestamps();
+        }
+
         Connection::getInstance()->insert(self::getTableName(), $this->attributes);
         $this->{self::$primaryKeyColumn} =
             Connection::getInstance()->getConnection()->lastInsertId(self::$primaryKeyColumn);
@@ -54,6 +60,10 @@ abstract class Model
 
     public function update(): object
     {
+        if (in_array(HasTimestamps::class, class_uses($this))) {
+            $this->setUpdatedTimestamps();
+        }
+
         Connection::getInstance()->update(self::getTableName(), $this->attributes, [[
             'value' => $this->attributes[self::$primaryKeyColumn],
             'column' => self::$primaryKeyColumn,
@@ -63,12 +73,29 @@ abstract class Model
         return $this;
     }
 
+    public function delete(): object
+    {
+        if (in_array(SoftDelete::class, class_uses($this))) {
+            $this->softDelete();
+            $this->update();
+        } else {
+
+            Connection::getInstance()->delete(self::getTableName(), [[
+                'value' => $this->attributes[self::$primaryKeyColumn],
+                'column' => self::$primaryKeyColumn,
+                'operator' => '='
+            ]]);
+
+        }
+        return $this;
+    }
+
     public function toArray(): array
     {
         return $this->attributes;
     }
 
-    private static function getTableName(): string
+    public static function getTableName(): string
     {
         if (isset(static::$tableName)) {
             return static::$tableName;
