@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Blog;
 use App\Models\User;
 use Core\BaseController;
 use Core\Connection;

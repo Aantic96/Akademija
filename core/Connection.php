@@ -79,13 +79,31 @@ class Connection
         $statement->execute();
     }
 
-    public function update(string $tableName, array $values, array $conditions):void
+    public function update(string $tableName, array $values, array $conditions): void
     {
         $data = [];
         foreach ($values as $column => $value) {
             $data[] = "$column = '$value'";
         }
 
+        $where = $this->where($conditions);
+
+        $query = "UPDATE $tableName SET " . implode(", ", $data) . $where;
+        $statement = $this->connection->prepare($query);
+        $statement->execute();
+    }
+
+    public function delete($tableName, array $conditions): void
+    {
+        $where = $this->where($conditions);
+
+        $query = "DELETE FROM $tableName " . $where;
+        $statement = $this->connection->prepare($query);
+        $statement->execute();
+    }
+
+    protected function where($conditions): string
+    {
         $where = [];
         foreach ($conditions as $condition) {
             $boolOperator = empty($where) ? "WHERE " : $condition['bool_operator'] . " ";
@@ -93,8 +111,6 @@ class Connection
                 $condition['value'] . "'";
         }
 
-        $query = "UPDATE $tableName SET " . implode(", ", $data) . implode(' ', $where);
-        $statement = $this->connection->prepare($query);
-        $statement->execute();
+        return implode(' ', $where);
     }
 }
