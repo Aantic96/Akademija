@@ -36,11 +36,16 @@ abstract class Model
     {
         $tableName = self::getTableName();
 
+        $query = "SELECT * FROM " . $tableName . " WHERE " .
+            self::$primaryKeyColumn . '=:primary_key';
+
+        if (in_array(SoftDelete::class, class_uses(static::class))) {
+            $query .= " AND deleted_at IS NULL";
+        }
+
         $instance = new static();
         $instance->attributes = Connection::getInstance()
-            ->fetchAssoc("SELECT * FROM " . $tableName . " WHERE " .
-                self::$primaryKeyColumn . '=:primary_key',
-                ['primary_key' => $primaryKey]);
+            ->fetchAssoc($query, ['primary_key' => $primaryKey]);
 
         return $instance;
     }
@@ -79,14 +84,13 @@ abstract class Model
             $this->softDelete();
             $this->update();
         } else {
-
             Connection::getInstance()->delete(self::getTableName(), [[
                 'value' => $this->attributes[self::$primaryKeyColumn],
                 'column' => self::$primaryKeyColumn,
                 'operator' => '='
             ]]);
-
         }
+        
         return $this;
     }
 
@@ -105,10 +109,4 @@ abstract class Model
         $inflector = InflectorFactory::create()->build();
         return $inflector->pluralize($inflector->tableize($word));
     }
-
-    private static function getPrimaryKeyColumn(): string
-    {
-        return static::$primaryKeyColumn;
-    }
-
 }

@@ -10,5 +10,4 @@ trait SoftDelete
         $date = $date->format('Y-m-d H:i:s');
         $this->deleted_at = $date;
     }
-
 }
